@@ -83,10 +83,10 @@ subscribe to the channel, and share it with others.
 
         st.subheader("📄 Generated Script")
         st.text(script)
-       st.download_button(
-    label="⬇️ Download Script (TXT)",
-    data=script,
-    file_name=f"{topic.replace(' ', '_')}_youtube_script.txt",
-    mime="text/plain"
-)
+        st.download_button(
+        label="⬇️ Download Script (TXT)",
+        data=script,
+        file_name=f"{topic.replace(' ', '_')}_youtube_script.txt",
+        mime="text/plain"
+        )
  
