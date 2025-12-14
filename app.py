@@ -2,42 +2,89 @@ import streamlit as st
 import random
 
 # ===============================
-# STEP 1: AI-like expansion logic
+# PAGE CONFIG + UI STYLE
+# ===============================
+st.set_page_config(page_title="Creator Script AI", layout="centered")
+
+st.markdown("""
+<style>
+.main {
+    background-color: #0e1117;
+}
+.stButton>button {
+    width: 100%;
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 10px;
+}
+footer {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
+
+# ===============================
+# SESSION LIMIT (MONETIZATION)
+# ===============================
+if "count" not in st.session_state:
+    st.session_state.count = 0
+
+# ===============================
+# VIRAL ELEMENTS
+# ===============================
+viral_hooks = [
+    "Before you do anything, watch this till the end.",
+    "Most people make this mistake.",
+    "This might save you a lot of money.",
+    "Don’t skip this if you care about results.",
+    "Nobody tells you this truth."
+]
+
+retention_lines = [
+    "But the most important part is coming next.",
+    "Stay till the end to avoid mistakes.",
+    "This one point changes everything.",
+    "Wait — this is crucial."
+]
+
+# ===============================
+# AI-LIKE EXPANSION LOGIC
 # ===============================
 def expand_point(topic, style):
     if style == "Educational":
-        return f"{topic} is important because it helps people understand real-world concepts clearly and practically."
+        return f"{topic} helps people understand important concepts clearly and practically."
     elif style == "Motivational":
-        return f"{topic} is something many people struggle with, but once you master it, your confidence improves."
+        return f"{topic} is something many people struggle with, but mastering it builds confidence."
     elif style == "Tech":
-        return f"In the tech world, {topic} plays a major role in improving efficiency and performance."
+        return f"In the tech world, {topic} plays a major role in performance and efficiency."
     elif style == "Gaming":
-        return f"In gaming, {topic} can directly affect skills, reaction time, and decision-making."
+        return f"In gaming, {topic} directly affects skills, reaction time, and decision-making."
     elif style == "Vlog":
-        return f"{topic} plays a big role in everyday life and personal experiences."
+        return f"{topic} connects strongly with everyday life and personal experience."
     elif style == "Review":
-        return f"{topic} needs honest evaluation before people make decisions."
+        return f"{topic} needs honest evaluation before making decisions."
     elif style == "Podcast":
-        return f"{topic} is worth discussing deeply with real opinions and experiences."
+        return f"{topic} is perfect for deep discussion and opinions."
     elif style == "Shorts / Reels":
-        return f"{topic} must grab attention quickly and deliver value fast."
+        return f"{topic} must grab attention fast and deliver value quickly."
     elif style == "Comedy":
-        return f"{topic} can be presented in a fun and entertaining way."
+        return f"{topic} can be explained in a fun and entertaining way."
     else:
-        return f"{topic} has a strong impact on daily life."
+        return f"{topic} impacts daily life more than people realize."
 
 # ===============================
-# STEP 2: Smart script generator
+# SMART SCRIPT GENERATOR
 # ===============================
 def generate_smart_script(topic, video_type, video_length, hook):
+    viral = random.choice(viral_hooks)
+    retain = random.choice(retention_lines)
+
     if video_length == "30–60 seconds (Shorts)":
         return f"""
 HOOK:
-{hook} {topic}!
+{viral}
 
 CONTENT:
 {expand_point(topic, video_type)}
-Most people ignore this, but it actually matters.
+{retain}
 
 ENDING:
 Follow for more useful content!
@@ -46,7 +93,7 @@ Follow for more useful content!
     elif video_length == "3–5 minutes":
         return f"""
 HOOK:
-{hook} {topic}.
+{viral} {hook} {topic}.
 
 INTRO:
 Welcome back to the channel.
@@ -54,86 +101,79 @@ Today we’re talking about {topic} and why it matters.
 
 MAIN CONTENT:
 {expand_point(topic, video_type)}
+Note this carefully.
 
-KEY INSIGHT:
-When you understand {topic}, your results improve naturally.
+{retain}
 
 ENDING:
-Like the video and subscribe for more.
+Like the video and subscribe.
 """
 
     elif video_length == "8–10 minutes":
         return f"""
 HOOK:
-{hook} {topic}.
+{viral} {hook} {topic}.
 
 INTRO:
-Welcome back to the channel.
+Welcome back.
 This video explains {topic} in detail.
 
 SECTION 1 – WHAT IT IS:
 {expand_point(topic, video_type)}
 
 SECTION 2 – WHY IT MATTERS:
-This directly affects performance and results.
+This affects real-world performance.
 
-SECTION 3 – REAL EXAMPLES:
-People applying {topic} correctly see better outcomes.
+SECTION 3 – EXAMPLES:
+People applying {topic} correctly see better results.
+
+{retain}
 
 ENDING:
-Like, subscribe, and share this video.
+Like, subscribe, and share.
 """
 
-    else:  # 12–15 minutes
+    else:
         return f"""
 HOOK:
-{hook} {topic}.
+{viral} {hook} {topic}.
 
 INTRO:
-Welcome back to the channel.
-Today’s video is a complete guide on {topic}.
+Welcome back.
+This is a complete guide on {topic}.
 
 SECTION 1 – BASICS:
 {expand_point(topic, video_type)}
 
 SECTION 2 – COMMON MISTAKES:
-Many people misunderstand or misuse {topic}.
+Most people misuse or ignore this.
 
 SECTION 3 – HOW TO IMPROVE:
-Consistency, learning, and practice matter.
+Consistency and learning matter.
 
 SECTION 4 – REAL LIFE:
-Those who apply {topic} perform better over time.
+Those who apply {topic} perform better.
+
+{retain}
 
 ENDING:
 Thanks for watching till the end.
-Subscribe for more content.
+Subscribe for more.
 """
 
 # ===============================
-# Streamlit UI
+# UI CONTENT
 # ===============================
-st.set_page_config(page_title="YouTube Script Generator", layout="centered")
+st.title("🎬 Creator Script AI")
+st.caption("Generate viral YouTube scripts — 100% free")
 
-st.title("🎬 YouTube Script Generator (Free)")
-st.write("Generate full YouTube video scripts without any paid AI.")
-
-# User inputs
 topic = st.text_input("Enter your video topic")
 
 video_type = st.selectbox(
     "Select video type",
     [
-        "Educational",
-        "Motivational",
-        "Tech",
-        "Story",
-        "Gaming",
-        "Vlog",
-        "Review",
-        "Podcast",
-        "Shorts / Reels",
-        "Comedy"
+        "Educational", "Motivational", "Tech", "Story", "Gaming",
+        "Vlog", "Review", "Podcast", "Shorts / Reels", "Comedy"
     ]
 )
 
@@ -147,44 +187,34 @@ video_length = st.selectbox(
     ]
 )
 
-# Hooks
 hooks = {
-    "Educational": [
-        "Have you ever wondered about",
-        "Most people don’t understand",
-        "Today, we are going to learn"
-    ],
-    "Motivational": [
-        "Let me tell you something important about",
-        "If you feel like giving up, listen to this about",
-        "This message can change your life regarding"
-    ],
-    "Tech": [
-        "In today’s video, we’ll talk about",
-        "This technology is changing everything about",
-        "If you love tech, you must know this about"
-    ],
-    "Story": [
-        "This is a story you’ve never heard before about",
-        "Once upon a time, something happened related to",
-        "Let me tell you an interesting story about"
-    ]
+    "Educational": ["Have you ever wondered about", "Most people don’t understand", "Today we’ll learn"],
+    "Motivational": ["Let me tell you something important about", "If you feel stuck, listen to this about"],
+    "Tech": ["In today’s video we’ll talk about", "This technology is changing"],
+    "Story": ["This is a story about", "Once upon a time"]
 }
 
-# Generate button
-if st.button("Generate Script"):
+# ===============================
+# GENERATE BUTTON
+# ===============================
+if st.button("🚀 Generate Script"):
     if topic.strip() == "":
         st.error("Please enter a topic")
+    elif st.session_state.count >= 2:
+        st.warning("Free limit reached. 💎 Contact on WhatsApp for Pro access.")
     else:
         hook = random.choice(hooks.get(video_type, ["Let’s talk about"]))
         script = generate_smart_script(topic, video_type, video_length, hook)
+        st.session_state.count += 1
 
         st.subheader("📄 Generated Script")
-        st.text(script)
+        st.text_area("Your Script", script, height=420)
 
         st.download_button(
-            label="⬇️ Download Script (TXT)",
-            data=script,
+            "⬇️ Download Script (TXT)",
+            script,
             file_name=f"{topic.replace(' ', '_')}_youtube_script.txt",
             mime="text/plain"
         )
+
+st.info("💎 Want unlimited scripts? WhatsApp: +91XXXXXXXXXX")
