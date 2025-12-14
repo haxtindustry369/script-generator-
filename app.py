@@ -12,7 +12,7 @@ def expand_point(topic, style):
     elif style == "Tech":
         return f"In the tech world, {topic} plays a major role in improving efficiency and performance."
     elif style == "Gaming":
-        return f"In gaming, {topic} can directly affect your skills, reaction time, and decision-making."
+        return f"In gaming, {topic} can directly affect skills, reaction time, and decision-making."
     elif style == "Vlog":
         return f"{topic} plays a big role in everyday life and personal experiences."
     elif style == "Review":
@@ -20,68 +20,11 @@ def expand_point(topic, style):
     elif style == "Podcast":
         return f"{topic} is worth discussing deeply with real opinions and experiences."
     elif style == "Shorts / Reels":
-        return f"{topic} needs to grab attention quickly and deliver value fast."
+        return f"{topic} must grab attention quickly and deliver value fast."
     elif style == "Comedy":
         return f"{topic} can be presented in a fun and entertaining way."
     else:
         return f"{topic} has a strong impact on daily life."
-
-st.set_page_config(page_title="YouTube Script Generator", layout="centered")
-
-st.title("🎬 YouTube Script Generator (Free)")
-
-st.write("Generate simple YouTube video scripts without any paid AI.")
-
-# User inputs
-topic = st.text_input("Enter your video topic")
-video_type = st.selectbox(
-    "Select video type",
-    [
-        "Educational",
-        "Motivational",
-        "Tech",
-        "Story",
-        "Gaming",
-        "Vlog",
-        "Review",
-        "Podcast",
-        "Shorts / Reels",
-        "Comedy"
-    ]
-)
-video_length = st.selectbox(
-    "Select video duration",
-    [
-        "30–60 seconds (Shorts)",
-        "3–5 minutes",
-        "8–10 minutes",
-        "12–15 minutes"
-    ]
-)
-
-# Script templates
-hooks = {
-    "Educational": [
-        "Have you ever wondered about",
-        "Most people don’t understand",
-        "Today, we are going to learn"
-    ],
-    "Motivational": [
-        "Let me tell you something important",
-        "If you feel like giving up, listen to this",
-        "This message can change your life"
-    ],
-    "Tech": [
-        "In today’s video, we’ll talk about",
-        "This technology is changing everything",
-        "If you love tech, you must know this"
-    ],
-    "Story": [
-        "This is a story you’ve never heard before",
-        "Once upon a time",
-        "Let me tell you an interesting story"
-    ]
-}
 
 # ===============================
 # STEP 2: Smart script generator
@@ -94,10 +37,10 @@ HOOK:
 
 CONTENT:
 {expand_point(topic, video_type)}
-Most people ignore this, but it matters.
+Most people ignore this, but it actually matters.
 
 ENDING:
-Follow for more content.
+Follow for more useful content!
 """
 
     elif video_length == "3–5 minutes":
@@ -113,10 +56,10 @@ MAIN CONTENT:
 {expand_point(topic, video_type)}
 
 KEY INSIGHT:
-Understanding {topic} helps you improve faster.
+When you understand {topic}, your results improve naturally.
 
 ENDING:
-Like the video and subscribe.
+Like the video and subscribe for more.
 """
 
     elif video_length == "8–10 minutes":
@@ -132,10 +75,10 @@ SECTION 1 – WHAT IT IS:
 {expand_point(topic, video_type)}
 
 SECTION 2 – WHY IT MATTERS:
-This impacts performance and results.
+This directly affects performance and results.
 
 SECTION 3 – REAL EXAMPLES:
-Applying {topic} in real life gives better outcomes.
+People applying {topic} correctly see better outcomes.
 
 ENDING:
 Like, subscribe, and share this video.
@@ -154,34 +97,94 @@ SECTION 1 – BASICS:
 {expand_point(topic, video_type)}
 
 SECTION 2 – COMMON MISTAKES:
-People often misuse {topic}.
+Many people misunderstand or misuse {topic}.
 
 SECTION 3 – HOW TO IMPROVE:
-Consistency and practice matter.
+Consistency, learning, and practice matter.
 
 SECTION 4 – REAL LIFE:
-Those who apply {topic} perform better.
+Those who apply {topic} perform better over time.
 
 ENDING:
 Thanks for watching till the end.
-Subscribe for more.
+Subscribe for more content.
 """
 
-script = generate_smart_script(topic, video_type, video_length, hook)
+# ===============================
+# Streamlit UI
+# ===============================
+st.set_page_config(page_title="YouTube Script Generator", layout="centered")
 
+st.title("🎬 YouTube Script Generator (Free)")
+st.write("Generate full YouTube video scripts without any paid AI.")
+
+# User inputs
+topic = st.text_input("Enter your video topic")
+
+video_type = st.selectbox(
+    "Select video type",
+    [
+        "Educational",
+        "Motivational",
+        "Tech",
+        "Story",
+        "Gaming",
+        "Vlog",
+        "Review",
+        "Podcast",
+        "Shorts / Reels",
+        "Comedy"
+    ]
+)
+
+video_length = st.selectbox(
+    "Select video duration",
+    [
+        "30–60 seconds (Shorts)",
+        "3–5 minutes",
+        "8–10 minutes",
+        "12–15 minutes"
+    ]
+)
+
+# Hooks
+hooks = {
+    "Educational": [
+        "Have you ever wondered about",
+        "Most people don’t understand",
+        "Today, we are going to learn"
+    ],
+    "Motivational": [
+        "Let me tell you something important about",
+        "If you feel like giving up, listen to this about",
+        "This message can change your life regarding"
+    ],
+    "Tech": [
+        "In today’s video, we’ll talk about",
+        "This technology is changing everything about",
+        "If you love tech, you must know this about"
+    ],
+    "Story": [
+        "This is a story you’ve never heard before about",
+        "Once upon a time, something happened related to",
+        "Let me tell you an interesting story about"
+    ]
+}
+
+# Generate button
 if st.button("Generate Script"):
     if topic.strip() == "":
         st.error("Please enter a topic")
     else:
-        hook = random.choice(hooks[video_type])
+        hook = random.choice(hooks.get(video_type, ["Let’s talk about"]))
         script = generate_smart_script(topic, video_type, video_length, hook)
 
         st.subheader("📄 Generated Script")
         st.text(script)
+
         st.download_button(
             label="⬇️ Download Script (TXT)",
             data=script,
             file_name=f"{topic.replace(' ', '_')}_youtube_script.txt",
             mime="text/plain"
         )
-
