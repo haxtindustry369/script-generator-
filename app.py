@@ -217,4 +217,4 @@ if st.button("🚀 Generate Script"):
             mime="text/plain"
         )
 
-st.info("💎 Want unlimited scripts? WhatsApp: +91XXXXXXXXXX")
+st.info("💎 Want unlimited scripts? MAIL US : haxtindustry369@gmail.com")
